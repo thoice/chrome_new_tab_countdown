@@ -1,0 +1,11 @@
+{
+	"name": "New Tab Countdown",
+	"version": "0.0.1",
+	"chrome_url_overrides" : {
+		"newtab": "new_tab_countdown.html"
+	},
+	"manifest_version": 2,
+	"permissions": [
+		"storage"
+    ]
+}

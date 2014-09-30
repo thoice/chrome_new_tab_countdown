@@ -1,0 +1,72 @@
+html, body, #container {
+	color: #494949;
+	font-family: sans-serif;
+}
+#container {
+	width: 98%;
+	margin: auto;
+}
+
+#header {
+	text-align: center;
+}
+
+.header-input, .header-button {
+	display: inline-block;
+}
+
+.header-input {
+	width: 30%;
+}
+
+.header-input input {
+	width: 100%;
+}
+
+.header-button {
+	width: 10%;
+}
+
+.progress-wrapper {
+	width: 50%;
+	float: left;
+}
+
+.progress-frame {
+	width: 100%;
+	border: 1px solid #eeeeee;
+	padding:2px;
+	margin: 2px;
+	box-sizing: border-box;
+}
+
+.progress-item {
+	background-color: #eeeeee;
+	position: relative;
+}
+
+.progress-item:hover .progress-item-close {
+	display: block;
+}
+
+.progress-item-close:hover {
+	background-color: #494949;
+	color: #eeeeee;
+}
+
+.progress-item-close {
+	position: absolute;
+	width: 1em;
+	height: 1em;
+	right: 0;
+	top: 0;
+	display: none;
+	text-align: center;
+	line-height: 1.1em;
+}
+
+.progress-bar {
+	width: 0%;
+    height: 5px;
+    background-color: #494949;
+}
