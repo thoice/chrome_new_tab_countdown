@@ -4,17 +4,32 @@
 		<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
 		<script type="text/javascript" src="jquery-ui_1.11.1.min.js"></script>
 		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript" src="jquery.base64.js"></script>
 		<link rel="stylesheet" type="text/css" href="main.css">
 		<link rel="stylesheet" type="text/css" href="jquery-ui_1.11.1.min.css">
 	</head>
 	<body>
 		<div id="header">
-			<span id="usage"></span>
-			<h1> Countdowns </h1>
+			<div>
+				<div id="im-wrapper">IM</div>
+				<div id="usage-wrapper"><span id="usage"></span></div>
+				<div id="ex-wrapper"><a id="ex-link" href="" download="countdowns.txt">EX</a></div>
+			</div>
+
+			<form>
+				<fieldset>
+					<legend><h1>Countdowns</h1></legend>
+					<div class="header-input"><label>Title of event:</label><input id="title" /></div>
+					<div class="header-input"><label>URL to get more details:</label><input id="url" /></div>
+					<div class="header-input"><label>Date of event:</label><input id="duedate" type="text" /></div>
+					<div class="header-button"><button id="add-progress-item"><span>Add</span></button></div>
+				</fieldset>
+			</form>
+			<!--<h1> Countdowns </h1>
 			<div class="header-input">Title of event:<input id="title" /></div>
 			<div class="header-input">URL to get more details:<input id="url" /></div>
 			<div class="header-input">Date of event:<input id="duedate" type="text" /></div>
-			<div class="header-button"><button id="add-progress-item"><span>Add</span></button></div>
+			<div class="header-button"><button id="add-progress-item"><span>Add</span></button></div>-->
 			<hr/>
 		</div>
 		<div id="container"></div>

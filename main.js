@@ -1,12 +1,12 @@
 jQuery(function() {
     chrome.storage.sync.get('progressItems', function(d){
-    	progressItems.parseAndRender(d['progressItems']);
+    	progressItems.parseAndRender(d);
     });
 
 	jQuery( "#duedate" ).datepicker().datepicker("option", "dateFormat", "yy-mm-dd");
-	// TODO bind, replace
-	jQuery('#add-progress-item').click(progressItems.addItem.bind(progressItems));
-	// document.getElementById('add-progress-item').addEventListener('click', progressItems.addItem.bind(progressItems), false);
+
+	document.getElementById('add-progress-item').addEventListener('click', progressItems.addItem.bind(progressItems), false);
+	document.getElementById('ex-link').addEventListener('click',  progressItems.exportItems.bind(progressItems), false);
 });
 
 var progressItems = {
@@ -25,16 +25,17 @@ var progressItems = {
 		return progressItems.items;
 	},
 	"addItem": function(event) {
+		console.log(this.items);
 		event.stopPropagation();
 		var duedate = document.getElementById('duedate');
 		var title = document.getElementById('title');
 		var url = document.getElementById('url');
-		progressItems.items.push({"duedate": duedate.value,"title": title.value,"url": url.value});
+		this.items.push({"duedate": duedate.value, "title": title.value, "url": url.value});
 		duedate.value = '';
 		title.value = '';
 		url.value = '';
-		chrome.storage.sync.set({'progressItems': JSON.stringify(progressItems.items)});
-		progressItems.render(progressItems.items);
+		chrome.storage.sync.set({'progressItems': JSON.stringify(this.items)});
+		this.render(this.items);
 	},
 	"removeItem": function(event) {
 		var id = this.id.replace('progress-item-close-', '');
@@ -46,13 +47,23 @@ var progressItems = {
 		}
 	},
 	"parseAndRender": function(string) {
-		this.items = JSON.parse(string);
+		if (typeof (string.progressItems) !== 'undefined') {
+			this.items = JSON.parse(string.progressItems);
+		} else {
+			this.items = [];
+		}
 		this.render(progressItems.items);
 	},
 	"render": function(items) {
 		document.getElementById('container').innerHTML = '';
 		var formattedItem = '';
 		var html = '';
+		items.sort(function(a, b) {
+			var aDate = new Date(a.duedate);
+			var bDate = new Date(b.duedate);
+			return aDate - bDate;
+		});
+
 		for (i in items) {
     		item = items[i];
     		formattedItem = progressItems.formatItem(i, item['duedate'], item['title'], item['url']);
@@ -64,7 +75,6 @@ var progressItems = {
 			document.getElementById('usage').innerHTML = 'Used: ' + bytes + '/' + chrome.storage.sync.QUOTA_BYTES;
 		});
 		jQuery('.progress-item-close').click(progressItems.removeItem);
-		// document.
 	},
 	"formatItem": function(id, duedate, title, url) {
 		html = progressItems.template;
@@ -73,5 +83,8 @@ var progressItems = {
 			.replace(/{{title}}/g, title)
 			.replace(/{{url}}/g, url);
 		return html;
+	},
+	"exportItems": function(event) {
+		event.srcElement.href = 'data:application/json;base64,' + jQuery.base64.encode(JSON.stringify(this.items));
 	}
 };

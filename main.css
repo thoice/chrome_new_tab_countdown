@@ -11,20 +11,34 @@ html, body, #container {
 	text-align: center;
 }
 
+form {
+	width: 70%;
+	margin: 0 auto;
+}
+
+fieldset {
+	border: 0;
+}
+
 .header-input, .header-button {
-	display: inline-block;
-}
-
-.header-input {
-	width: 30%;
-}
-
-.header-input input {
 	width: 100%;
+	text-align: right;
+	display: inline-block;
+	font-size: 13pt;
 }
 
-.header-button {
-	width: 10%;
+.header-input input, .header-button button{
+	width: 70%;
+	font-size: 13pt;
+	border: 1px solid #A8AEB3;
+}
+
+#add-progress-item {
+	background-color: #F0FFF0;
+}
+
+#im-wrapper, #usage-wrapper, #ex-wrapper {
+	display: inline-block;
 }
 
 .progress-wrapper {
