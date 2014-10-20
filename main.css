@@ -30,7 +30,16 @@ fieldset {
 .header-input input, .header-button button{
 	width: 70%;
 	font-size: 13pt;
-	border: 1px solid #A8AEB3;
+	border: 0;
+    outline: none;
+}
+.header-button button {
+    border: 1px solid #A8AEB3;
+}
+
+.header-input input {
+    margin-bottom: 2px;
+    border-bottom: 2px solid #A8AEB3;
 }
 
 #add-progress-item {
