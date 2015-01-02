@@ -27,7 +27,11 @@ fieldset {
 	font-size: 13pt;
 }
 
-.header-input input, .header-button button{
+.header-input {
+    margin-bottom: 4px;
+}
+
+.header-input input, .header-button button, .header-input select{
 	width: 70%;
 	font-size: 13pt;
 	border: 0;
@@ -38,7 +42,7 @@ fieldset {
 }
 
 .header-input input {
-    margin-bottom: 2px;
+    margin-left: 10px;
     border-bottom: 2px solid #A8AEB3;
 }
 
