@@ -1,11 +1,11 @@
 jQuery(function() {
-	progressItems.get();
-	document.getElementById('add-progress-item').addEventListener('click', progressItems.addItem.bind(progressItems), false);
-	document.getElementById('ex-link').addEventListener('click',  progressItems.exportItems.bind(progressItems), false);
+    itemsManager.get();
+	document.getElementById('add-progress-item').addEventListener('click', itemsManager.addItem.bind(itemsManager), false);
+	//document.getElementById('ex-link').addEventListener('click',  progressItems.exportItems.bind(progressItems), false);
 });
 
-var progressItems = {
-    "apiBaseUrl": 'http://khliapov.com/myosotis/',
+var itemsManager = {
+    "apiBaseUrl": 'http://khliapov.loc/myosotis/',
 	"items": [],
 	"template" : '<div class="progress-wrapper">\
 		<div class="progress-frame" id="progress-frame-{{id}}">\
@@ -13,7 +13,7 @@ var progressItems = {
 				<div class="progress-item-close" id="progress-item-close-{{id}}">&times;</div>\
 				<span>{{duedate}}</span>\
 				<div class="progress-bar" id="progress-bar-{{id}}"></div>\
-				<a href="{{url}}">{{name}}</a>\
+				<a href="{{url}}" data-item-title="{{name}}" id="item-title-{{id}}">{{name}}</a>\
 			</div>\
 		</div>\
 	</div>',
@@ -38,9 +38,9 @@ var progressItems = {
 	},
 	"removeItem": function(event) {
 		var id = this.id.replace('progress-item-close-', '');
-		var itemTitle = progressItems.items[id]['title'];
+		var itemTitle = document.getElementById('item-title-' + id).dataset.itemTitle;
 		if (confirm('Are you sure you want to delete item ' + itemTitle + '?')) {
-            progressItems.delete(id).bind(progressItems);
+            itemsManager.delete(id);
 		}
 	},
 	"render": function(items) {
@@ -55,14 +55,14 @@ var progressItems = {
 
 		for (var i in items) {
     		var item = items[i];
-    		formattedItem = progressItems.formatItem(item.id, item.duedate, item.name, item.url);
+    		formattedItem = itemsManager.formatItem(item.id, item.duedate, item.name, item.url);
     		html += formattedItem;
     	}
     	document.getElementById('container').innerHTML = html;
-        jQuery('.progress-item-close').click(progressItems.removeItem);
+        jQuery('.progress-item-close').click(itemsManager.removeItem);
 	},
 	"formatItem": function(id, duedate, name, url) {
-		var html = progressItems.template;
+		var html = itemsManager.template;
         duedate = (duedate == '') ? '&nbsp;' : duedate;
 		html = html.replace(/{{id}}/g, id)
 			.replace(/{{duedate}}/g, duedate)
@@ -70,14 +70,14 @@ var progressItems = {
 			.replace(/{{url}}/g, url);
 		return html;
 	},
-	"exportItems": function(event) {
-		event.srcElement.href = 'data:application/json;base64,' + jQuery.base64.encode(JSON.stringify(this.items));
-	},
-    "addToCollectionAndRender": function(item) {
-        if (undefined != item && undefined != item.id) {
-            this.items[item.id] = item;
-        }
-        this.render(this.items);
+	//"exportItems": function(event) {
+	//	event.srcElement.href = 'data:application/json;base64,' + jQuery.base64.encode(JSON.stringify(this.items));
+	//},
+    "updateCollectionAndRender": function(items) {
+        items.map(function(element) {
+            itemsManager.items[element.id] = element;
+        });
+        itemsManager.render(itemsManager.items);
     },
     "post": function(item) {
         var data = {'item': item};
@@ -89,7 +89,7 @@ var progressItems = {
             'crossDomain': true
         }).done(
             function(data) {
-                progressItems.render(data.items)
+                itemsManager.render(data.items)
             }
         );
 
@@ -99,31 +99,27 @@ var progressItems = {
             'url': this.apiBaseUrl + 'items.json',
             'crossDomain': true
         }).done(
-            function(data) {
-                data.items.map(function(element) {
-                    progressItems.items[element.id] = element;
-                });
-                progressItems.render(progressItems.items);
+            function(data, textStatus, jqXHR) {
+                itemsManager.updateCollectionAndRender(data.items);
             }
         );
     },
     "delete": function(id) {
-        debugger;
         var data = {'id' : id};
         jQuery.ajax({
-            'url': this.apiBaseUrl + 'items',
+            'url': this.apiBaseUrl + 'items.json',
             'type': 'DELETE',
-            'data': data
-        }).done(
-            function(d) {
-                debugger;
-                progressItems.items.splice(id, 1);
-                progressItems.render(progressItems.items);
-                chrome.storage.sync.set({'progressItems': JSON.stringify(progressItems.items)});
-
-                progressItems.items = d;
-                progressItems.render(progressItems.items);
+            'dataType': 'json',
+            'data': data,
+            'crossDomain': true
+        }).done(function(data, textStatus, jqXHR) {
+                itemsManager.render(data.items);
             }
+        ).fail(function(jqXHR, textStatus, errorThrown) {
+                debugger;
+            }
+        ).always(function(data, textStatus, jqXHR) {}
         );
+        return this;
     }
 };
