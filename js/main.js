@@ -5,7 +5,7 @@ jQuery(function() {
 });
 
 var itemsManager = {
-    "apiBaseUrl": 'http://khliapov.loc/myosotis/',
+    "apiBaseUrl": 'http://khliapov.com/myosotis/',
 	"items": [],
 	"template" : '<div class="progress-wrapper">\
 		<div class="progress-frame" id="progress-frame-{{id}}">\

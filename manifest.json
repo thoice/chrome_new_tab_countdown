@@ -1,13 +1,20 @@
 {
-	"name": "New Tab Countdown",
-	"version": "0.0.1",
+	"name": "Myosotis",
+	"version": "0.0.2",
 	"chrome_url_overrides" : {
-		"newtab": "new_tab_countdown.html"
+		"newtab": "new_tab_myosotis.html"
 	},
 	"manifest_version": 2,
 	"permissions": [
 		"storage",
 		"http://khliapov.loc/*",
-		"http://khliapov.com/*"
-    ]
+		"http://khliapov.com/*",
+
+		"tabs",
+		"http://www.imdb.com/*"
+    ],
+	"browser_action": {
+	  "default_icon": "img/icon.png",
+	  "default_popup": "popup.html"
+	}
 }
