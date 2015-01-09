@@ -1,10 +1,25 @@
 document.addEventListener('DOMContentLoaded', function () {
-    var btn = document.getElementById('btn-send').addEventListener('click', send);
+    var btn = document.getElementById('btn-send').addEventListener('click', sendClickHandler);
     fillForm();
 });
 
-function send(e) {
-    e.currentTarget.preventDefault = true;
+function sendClickHandler(event) {
+    event.preventDefault();
+    var data = {
+        'name': document.getElementById('name').value,
+        'url': document.getElementById('url').value
+    };
+
+    send(data, doneCallback, failCallback);
+    debugger;
+}
+
+function doneCallback(data, b, c) {
+    debugger;
+}
+
+function failCallback(data, b, c) {
+    debugger;
 }
 
 function fillForm() {

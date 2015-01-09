@@ -1,15 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/myosotis.js"></script>
     <script src="js/popup.js"></script>
+    <link rel="stylesheet" href="css/popup.css" />
     <meta charset="UTF-8">
     <title>Myosotis</title>
 </head>
 <body>
-<form>
-    <input name="title" placeholder="name" id="name"/><br/>
-    <input name="url" placeholder="url" id="url"/><br/>
-    <button id="btn-send"><span> Send Data </span></button>
-</form>
+<header>
+    <h1>Myosotis</h1>
+</header>
+<div id="progress-bar">
+    <div id="progress"></div>
+</div>
+<main>
+    <form id="myosotis-form">
+        <div id="input-group-wrapper">
+            <div class="input-wrapper">
+                <label>Name:</label>
+                <input name="title" id="name"/>
+            </div>
+            <div class="input-wrapper">
+                <label>URL:</label>
+                <input name="url" id="url"/>
+            </div>
+            <div class="input-wrapper">
+                <button id="btn-send"><span> Send Data </span></button>
+            </div>
+        </div>
+    </form>
+</main>
 </body>
 </html>
